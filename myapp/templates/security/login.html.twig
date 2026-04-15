@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sie eSolver - Login
+{% endblock %}
+
+{% block stylesheets %}
+  <style>
+    .q-field__input {
+      border: 1px solid rgba(0, 0, 0, 0.24);
+      transition: border-color 0.36s cubic-bezier(0.4,0,0.2,1);
+    }
+    .q-field__input:focus-visible {
+      border-width: 2px;
+      border-color: #1976d2;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="window-height window-width row justify-center items-center">
+    <div class="row">
+      <div class="shadow-16 q-card" style="min-width: 380px; height: 450px;">
+        <div class="bg-primary q-card__section q-card__section--vert">
+          <h4 class="text-h5 text-white q-my-none">
+            <i aria-hidden="true" role="presentation" class="material-icons q-icon notranslate" style="font-size: 4rem;">person</i>
+            Login</h4>
+        </div>
+        <div class="q-card__section q-card__section--vert">
+          <form action="{{ path('app_login') }}" method="post">
+            {% if error %}
+              <div class="text-negative">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+              <div class="q-mb-md">
+                You are logged in as
+                {{ app.user.userIdentifier }},
+                <a href="{{ path('app_logout') }}">Logout</a>
+              </div>
+            {% endif %}
+
+            <div class="column q-my-md">
+              <label class="q-field__label" for="username">Username</label>
+              <input type="text" value="{{ last_username }}" name="_username" id="username" class="q-field--labeled q-field__input q-mt-sm q-px-sm q-py-md rounded-borders" required autofocus>
+            </div>
+
+            <div class="column q-my-md">
+              <label class="q-field__label" for="password">Password</label>
+              <input type="password" name="_password" id="password" class="q-field--labeled q-field__input q-mt-sm q-px-sm q-py-md rounded-borders" autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="column q-my-xl">
+              <button type="submit" role="submit" class="q-py-sm q-btn q-btn-item non-selectable no-outline q-btn--rectangle text-white bg-primary" style="font-size: 1.25rem;" type="submit">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
